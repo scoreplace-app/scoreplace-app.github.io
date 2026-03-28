@@ -164,6 +164,13 @@ async function simulateLoginSuccess(user) {
   var modal = document.getElementById('modal-login');
   if (modal) modal.classList.remove('active');
 
+  // Redirect to pending invite tournament if there was one
+  if (window._pendingInviteHash) {
+    var dest = window._pendingInviteHash;
+    window._pendingInviteHash = null;
+    window.location.hash = dest;
+  }
+
   // Initialize router to load appropriate views
   if (typeof initRouter === 'function') initRouter();
 }
