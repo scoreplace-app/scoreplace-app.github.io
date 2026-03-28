@@ -7,7 +7,7 @@ function renderDashboard(container) {
   const inscricoesAbertas = visible.filter(t => {
     const sorteioRealizado = t.status === 'active' && (t.matches || t.rounds || t.groups);
     const ligaAberta = t.format === 'Liga' && t.ligaOpenEnrollment !== false && sorteioRealizado;
-    return (t.isPublic && t.status !== 'closed' && !sorteioRealizado && (!t.registrationLimit || new Date(t.registrationLimit) >= new Date())) || ligaAberta;
+    return (t.status !== 'closed' && !sorteioRealizado && (!t.registrationLimit || new Date(t.registrationLimit) >= new Date())) || ligaAberta;
   }).length;
 
 
@@ -30,7 +30,7 @@ function renderDashboard(container) {
     const isOrg = organizados.some(org => org.id === t.id);
     const isPart = participacoes.some(pt => pt.id === t.id);
     if (isOrg || isPart) return false;
-    const isAberto = t.isPublic && (!t.registrationLimit || new Date(t.registrationLimit) >= new Date());
+    const isAberto = t.status !== 'closed' && (!t.registrationLimit || new Date(t.registrationLimit) >= new Date());
     return isAberto;
   }).sort(sortByDate);
 
