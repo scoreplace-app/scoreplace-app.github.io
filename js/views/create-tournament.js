@@ -130,7 +130,7 @@ function setupCreateTournamentModal() {
               </div>
 
               <!-- Local e Quadras -->
-              <div style="background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+              <div id="venue-photo-box" style="background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
                 <p style="margin: 0 0 0.75rem; font-size: 0.8rem; color: #34d399; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Local e Quadras</p>
                 <div class="mb-2">
                   <div class="form-group" style="flex:1;">
@@ -794,11 +794,8 @@ function setupCreateTournamentModal() {
 
   // Apply venue photo as background on the Local e Quadras box
   window._applyVenuePhoto = function (photoUrl) {
-    // Find the "Local e Quadras" section box (parent of venue input)
-    var venueInput = document.getElementById('tourn-venue');
-    if (!venueInput) return;
-    // Walk up to the green-bordered box (3 levels up: input → div.form-group → div.mb-2 → box div)
-    var box = venueInput.closest('[style*="rgba(16,185,129"]');
+    // Find the "Local e Quadras" section box by ID
+    var box = document.getElementById('venue-photo-box');
     if (!box) return;
 
     if (photoUrl) {
