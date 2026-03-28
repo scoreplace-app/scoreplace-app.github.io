@@ -24,7 +24,7 @@ function initRouter() {
       // Show a friendly message and the login modal
       viewContainer.innerHTML = '';
       viewContainer.innerHTML = `
-        <div style="max-width: 500px; margin: 3rem auto; text-align: center; padding: 2rem;">
+        <div style="max-width: 500px; width: 100%; margin: 1.5rem auto; text-align: center; padding: 1.5rem; box-sizing: border-box;">
           <div style="font-size: 3rem; margin-bottom: 1rem;">\u{1F3C6}</div>
           <h2 style="color: var(--text-bright); margin-bottom: 0.5rem;">Voc\u00EA foi convidado!</h2>
           <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Fa\u00E7a login para ver este torneio e se inscrever.</p>
