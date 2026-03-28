@@ -592,9 +592,28 @@ function setupCreateTournamentModal() {
     }
 
     // --- Debounced search on input ---
+    input._lastSelectedVenue = input.value || '';
     input.addEventListener('input', function () {
       clearTimeout(_venueSearchTimer);
       var query = input.value.trim();
+
+      // If user changed the venue text, clear old venue data and photo
+      if (query !== input._lastSelectedVenue) {
+        var latEl = document.getElementById('tourn-venue-lat');
+        var lonEl = document.getElementById('tourn-venue-lon');
+        var addrEl = document.getElementById('tourn-venue-address');
+        var placeIdEl = document.getElementById('tourn-venue-place-id');
+        var photoUrlEl = document.getElementById('tourn-venue-photo-url');
+        if (latEl) latEl.value = '';
+        if (lonEl) lonEl.value = '';
+        if (addrEl) addrEl.value = '';
+        if (placeIdEl) placeIdEl.value = '';
+        if (photoUrlEl) photoUrlEl.value = '';
+        window._applyVenuePhoto('');
+        var infoEl = document.getElementById('venue-osm-info');
+        if (infoEl) { infoEl.style.display = 'none'; infoEl.innerHTML = ''; }
+      }
+
       if (query.length < 3) {
         suggestionsDiv.style.display = 'none';
         suggestionsDiv.innerHTML = '';
@@ -710,7 +729,11 @@ function setupCreateTournamentModal() {
       var displayName = name + (city ? ', ' + city : '');
       var fullAddress = place.formattedAddress || displayName;
 
-      if (input) input.value = displayName;
+      if (input) {
+        input.value = displayName;
+        // Update the tracked venue name so input listener doesn't clear it
+        input._lastSelectedVenue = displayName;
+      }
       if (latEl && place.location) latEl.value = place.location.lat();
       if (lonEl && place.location) lonEl.value = place.location.lng();
       var addrEl = document.getElementById('tourn-venue-address');
