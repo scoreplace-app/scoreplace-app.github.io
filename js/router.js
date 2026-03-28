@@ -25,9 +25,9 @@ function initRouter() {
       viewContainer.innerHTML = '';
       viewContainer.innerHTML = `
         <div style="max-width: 500px; margin: 3rem auto; text-align: center; padding: 2rem;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
-          <h2 style="color: var(--text-bright); margin-bottom: 0.5rem;">Você foi convidado!</h2>
-          <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Faça login para ver este torneio e se inscrever.</p>
+          <div style="font-size: 3rem; margin-bottom: 1rem;">\u{1F3C6}</div>
+          <h2 style="color: var(--text-bright); margin-bottom: 0.5rem;">Voc\u00EA foi convidado!</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Fa\u00E7a login para ver este torneio e se inscrever.</p>
           <button class="btn btn-primary" onclick="if(typeof openModal==='function')openModal('modal-login');" style="padding: 0.75rem 2rem; font-size: 1rem; font-weight: 600;">
             Entrar com Google
           </button>
@@ -69,11 +69,11 @@ function initRouter() {
         renderRules(viewContainer, param);
         break;
       default:
-        viewContainer.innerHTML = `<div class="card"><div class="card-body"><h3>Em construção</h3><p>A página ${view} estará disponível em breve.</p></div></div>`;
+        viewContainer.innerHTML = \`<div class="card"><div class="card-body"><h3>Em constru\u00E7\u00E3o</h3><p>A p\u00E1gina \${view} estar\u00E1 dispon\u00EDvel em breve.</p></div></div>\`;
     }
   };
 
-  // Remove listener anterior para evitar duplicação (initRouter pode ser chamado múltiplas vezes)
+  // Remove listener anterior para evitar duplica\u00E7\u00E3o (initRouter pode ser chamado m\u00FAltiplas vezes)
   if (window._routerHandler) {
     window.removeEventListener('hashchange', window._routerHandler);
   }
