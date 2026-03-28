@@ -9,6 +9,32 @@ function initRouter() {
     const view = parts[0];
     const param = parts[1] || null;
 
+    // --- Track invited tournament IDs for visibility ---
+    if (view === 'tournaments' && param && window.AppStore) {
+      if (window.AppStore._invitedTournamentIds.indexOf(param) === -1) {
+        window.AppStore._invitedTournamentIds.push(param);
+      }
+    }
+
+    // --- Invite redirect: if not logged in and visiting a tournament, save destination and show login ---
+    const isLoggedIn = !!(window.AppStore && window.AppStore.currentUser);
+    if (!isLoggedIn && view === 'tournaments' && param) {
+      // Save the intended destination so we can redirect after login
+      window._pendingInviteHash = hash;
+      // Show a friendly message and the login modal
+      viewContainer.innerHTML = '';
+      viewContainer.innerHTML = `
+        <div style="max-width: 500px; margin: 3rem auto; text-align: center; padding: 2rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
+          <h2 style="color: var(--text-bright); margin-bottom: 0.5rem;">Você foi convidado!</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Faça login para ver este torneio e se inscrever.</p>
+          <button class="btn btn-primary" onclick="if(typeof openModal==='function')openModal('modal-login');" style="padding: 0.75rem 2rem; font-size: 1rem; font-weight: 600;">
+            Entrar com Google
+          </button>
+        </div>`;
+      return;
+    }
+
     links.forEach(l => {
       l.classList.remove('active');
       if (l.getAttribute('href') === hash) l.classList.add('active');

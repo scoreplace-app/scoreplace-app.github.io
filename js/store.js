@@ -10,6 +10,7 @@ window.AppStore = {
   currentUser: null,
   viewMode: 'organizer',
   tournaments: [],
+  _invitedTournamentIds: [],  // Track tournament IDs from invite links
   _syncDebounce: null,
   _loading: false,
 
@@ -95,8 +96,11 @@ window.AppStore = {
   },
 
   getVisibleTournaments() {
+    var invitedIds = this._invitedTournamentIds || [];
     return this.tournaments.filter(function(t) {
       if (t.isPublic) return true;
+      // Tournament accessed via invite link is always visible
+      if (invitedIds.indexOf(String(t.id)) !== -1) return true;
       if (!window.AppStore.currentUser) return false;
       var pList = Array.isArray(t.participants) ? t.participants : (t.participants ? Object.values(t.participants) : []);
       var isPart = pList.some(function(p) {
