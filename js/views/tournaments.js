@@ -2528,7 +2528,7 @@ function renderTournaments(container, tournamentId = null) {
         // Inscrições fecham após sorteio (status 'active'), exceto Liga com inscrições abertas na temporada
         const sorteioRealizado = t.status === 'active' && (t.matches || t.rounds || t.groups);
         const ligaAberta = t.format === 'Liga' && t.ligaOpenEnrollment !== false && sorteioRealizado;
-        const isAberto = t.isPublic && t.status !== 'closed' && !sorteioRealizado && (!t.registrationLimit || new Date(t.registrationLimit) >= new Date()) || ligaAberta;
+        const isAberto = t.status !== 'closed' && !sorteioRealizado && (!t.registrationLimit || new Date(t.registrationLimit) >= new Date()) || ligaAberta;
         const statusText = isAberto ? 'Inscrições Abertas' : (sorteioRealizado ? 'Em Andamento' : 'Inscrições Encerradas');
         const statusBg = isAberto ? '#fbbf24' : (sorteioRealizado ? 'rgba(16,185,129,0.2)' : 'rgba(0,0,0,0.3)');
         const statusColor = isAberto ? '#78350f' : (sorteioRealizado ? '#34d399' : '#fca5a5');
