@@ -69,7 +69,7 @@ function initRouter() {
         renderRules(viewContainer, param);
         break;
       default:
-        viewContainer.innerHTML = \`<div class="card"><div class="card-body"><h3>Em constru\u00E7\u00E3o</h3><p>A p\u00E1gina \${view} estar\u00E1 dispon\u00EDvel em breve.</p></div></div>\`;
+        viewContainer.innerHTML = `<div class="card"><div class="card-body"><h3>Em constru\u00E7\u00E3o</h3><p>A p\u00E1gina ${view} estar\u00E1 dispon\u00EDvel em breve.</p></div></div>`;
     }
   };
 
