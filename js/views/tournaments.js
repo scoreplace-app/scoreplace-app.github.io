@@ -2482,6 +2482,27 @@ function renderTournaments(container, tournamentId = null) {
 
     if (tournamentId) {
         visible = visible.filter(t => t.id && t.id.toString() === tournamentId.toString());
+        // If tournament not found in visible list, try loading it directly from Firestore
+        if (visible.length === 0 && window.FirestoreDB && window.FirestoreDB.db) {
+            container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-muted);">Carregando torneio...</div>';
+            window.FirestoreDB.db.collection('tournaments').doc(String(tournamentId)).get().then(function(doc) {
+                if (doc.exists) {
+                    var t = doc.data();
+                    var exists = window.AppStore.tournaments.some(function(x) { return String(x.id) === String(t.id); });
+                    if (!exists) { window.AppStore.tournaments.push(t); }
+                    if (window.AppStore._invitedTournamentIds.indexOf(String(tournamentId)) === -1) {
+                        window.AppStore._invitedTournamentIds.push(String(tournamentId));
+                        try { sessionStorage.setItem('_invitedTournamentIds', JSON.stringify(window.AppStore._invitedTournamentIds)); } catch(e) {}
+                    }
+                    renderTournaments(container, tournamentId);
+                } else {
+                    container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-muted);">Torneio n\u00E3o encontrado.</div>';
+                }
+            }).catch(function() {
+                container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-muted);">Erro ao carregar torneio. Tente novamente.</div>';
+            });
+            return;
+        }
     }
 
     const cleanSportName = (sport) => sport ? sport.replace(/^[^\w\u00C0-\u024F]+/u, '').trim() : '';
